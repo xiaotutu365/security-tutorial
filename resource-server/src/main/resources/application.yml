@@ -1,1 +1,13 @@
-
+server:
+  port: 8081
+spring:
+  application:
+    name: resource-server
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/spring-security?characterEncoding=utf8&serverTimezone=UTC
+    username: root
+    password: admin
+  jpa:
+    generate-ddl: true
+    show-sql: true

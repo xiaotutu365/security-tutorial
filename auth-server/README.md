@@ -22,3 +22,12 @@ OAuth2.0为我们提供四种授权方式:
 * 密码模式(resource owner password credentials)
 * 客户端模式(client credentials)
 
+token访问端点`org.springframework.security.oauth2.provider.endpoint.TokenEndpoint`
+
+TokenStore为接口，存在于包`org.springframework.security.oauth2.provider.token`下，有以下几种实现类:
+* InMemoryTokenStore
+* JdbcTokenStore
+* JwtTokenStore
+* RedisTokenStore
+
+在具体场景中，我们可以根据需要选择合适的TokenStore.

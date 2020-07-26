@@ -3,11 +3,13 @@ spring:
     name: auth-server
   datasource:
     url: jdbc:mysql://localhost:3306/spring-security?characterEncoding=utf8&serverTimezone=UTC
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: admin
   jpa:
     show-sql: true
     generate-ddl: true
 server:
-  port: 8060
+  port: 8080
+mybatis-plus:
+  type-aliases-package: com.trey.authserver.entity

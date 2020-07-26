@@ -16,5 +16,5 @@ public class Credentials {
 
     private Integer version;
 
-    private List<Authority> grantedAuthorities;
+//    private List<Authority> grantedAuthorities;
 }

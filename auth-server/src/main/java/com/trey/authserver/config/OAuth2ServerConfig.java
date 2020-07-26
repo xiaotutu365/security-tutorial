@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.provider.client.JdbcClientDetailsServ
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 import javax.sql.DataSource;
@@ -47,18 +48,37 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    /**
+     * 对应 oauth_client_details表
+     *
+     * @return
+     */
     @Bean
     public JdbcClientDetailsService jdbcClientDetailsService() {
         return new JdbcClientDetailsService(dataSource);
     }
 
+    /**
+     * 对应 oauth_access_token表
+     *
+     * @return
+     */
     @Bean
     public TokenStore tokenStore() {
-        return new JdbcTokenStore(dataSource);
+        // 1.使用Jdbc来存储Token
+        // return new JdbcTokenStore(dataSource);
+        // 2.以Jwt的方式来存储Token
+        return new JwtTokenStore(jwtTokenEnhancer());
+    }
+
+    public JwtAccessTokenConverter jwtTokenEnhancer() {
+        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+        converter.setSigningKey("123456");
+        return converter;
     }
 
     /**
-     * 客户端详情信息
+     * 客户端详情信息,将客户端信息读取到认证服务器,可以从内存中读取,也可从数据库中读取
      *
      * @param clients
      * @throws Exception
@@ -70,8 +90,11 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 
     /**
      * 该方法用来配置
-     * 1)配置授权(authorization)
+     * 1)授权(authorization)
      * 2)令牌(token)的访问端点和令牌服务(token services)
+     * <p>
+     * 根据用户输入的用户名和密码从数据库中进行认证,认证通过则返回token
+     * 用户输入username和password,在UserDetailsService具体的实现中进行比对
      *
      * @param endpoints
      * @throws Exception
@@ -81,9 +104,8 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
         endpoints.authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService)
                 .tokenStore(tokenStore())
-                // .accessTokenConverter(jwtAccessTokenConverter())
-                .reuseRefreshTokens(false);
-
+                // .tokenEnhancer(jwtTokenEnhancer());
+                .tokenEnhancer(jwtAccessTokenConverter());
     }
 
     @Bean
@@ -102,7 +124,7 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
      */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security.tokenKeyAccess("permitAll()")
-                .checkTokenAccess("isAuthenticated()");
+        security.tokenKeyAccess("permitAll()")  // 开启/oauth/token_key验证端口无权限访问
+                .checkTokenAccess("isAuthenticated()");     // 开启/oauth/check_token验证端口认证权限访问
     }
 }
