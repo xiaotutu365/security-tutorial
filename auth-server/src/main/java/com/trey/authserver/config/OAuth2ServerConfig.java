@@ -118,13 +118,14 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
 
     /**
      * 该方法用来配置令牌端点(token endpoint)的安全约束
+     * tokenKeyAccess --> /oauth/token_key(TokenKeyEndpoint)
      *
      * @param security
      * @throws Exception
      */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security.tokenKeyAccess("permitAll()")  // 开启/oauth/token_key验证端口无权限访问
+        security.tokenKeyAccess("isAuthenticated()")  // 开启/oauth/token_key验证端口无权限访问(permitAll())
                 .checkTokenAccess("isAuthenticated()");     // 开启/oauth/check_token验证端口认证权限访问
     }
 }

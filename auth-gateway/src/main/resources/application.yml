@@ -1,0 +1,8 @@
+security:
+  oauth2:
+    resource:
+      jwt:
+        key-uri: http://localhost:8080/oauth/token_key  # 存在于认证服务器的端点中,返回密钥
+    client: # 认证信息,当前是配置在数据库中
+      client-id: gateway
+      client-secret: 123456
