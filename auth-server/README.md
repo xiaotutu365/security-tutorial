@@ -22,6 +22,8 @@ OAuth2.0为我们提供四种授权方式:
 * 密码模式(resource owner password credentials)
 * 客户端模式(client credentials)
 
+其中授权码许可类型将所有不同的OAuth参与方完全隔离，所以它是这些许可类型中最基础和最复杂的一种。
+
 token访问端点`org.springframework.security.oauth2.provider.endpoint.TokenEndpoint`
 
 TokenStore为接口，存在于包`org.springframework.security.oauth2.provider.token`下，有以下几种实现类:

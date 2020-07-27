@@ -11,3 +11,11 @@ spring:
   jpa:
     generate-ddl: true
     show-sql: true
+#security:
+#  oauth2:
+#    client:
+#      client-id: user_client
+#      client-secret: user
+#    resource:
+#      jwt:
+#        key-uri: http://oauth.trey.com:8080/oauth/token_key

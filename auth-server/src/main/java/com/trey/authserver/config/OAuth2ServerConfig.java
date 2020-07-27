@@ -66,9 +66,9 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
     @Bean
     public TokenStore tokenStore() {
         // 1.使用Jdbc来存储Token
-        // return new JdbcTokenStore(dataSource);
+        return new JdbcTokenStore(dataSource);
         // 2.以Jwt的方式来存储Token
-        return new JwtTokenStore(jwtTokenEnhancer());
+        // return new JwtTokenStore(jwtTokenEnhancer());
     }
 
     public JwtAccessTokenConverter jwtTokenEnhancer() {
@@ -103,9 +103,9 @@ public class OAuth2ServerConfig extends AuthorizationServerConfigurerAdapter {
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService)
-                .tokenStore(tokenStore())
+                .tokenStore(tokenStore());
                 // .tokenEnhancer(jwtTokenEnhancer());
-                .tokenEnhancer(jwtAccessTokenConverter());
+                // .tokenEnhancer(jwtAccessTokenConverter())
     }
 
     @Bean

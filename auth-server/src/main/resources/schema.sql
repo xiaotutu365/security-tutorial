@@ -65,3 +65,5 @@ create table ClientDetails (
   additionalInformation VARCHAR(4096),
   autoApproveScopes VARCHAR(256)
 );
+
+INSERT INTO oauth_client_details VALUES('user_client','project_api', '$2a$10$BurTWIy5NTF9GJJH4magz.9Bd4bBurWYG8tmXxeQh1vs7r/wnCFG2', 'read,write', 'password,refresh_token', 'http://127.0.0.1', 'ROLE_PROJECT_ADMIN', 7200, 1800, NULL, 'true');
